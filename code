@@ -1,0 +1,62 @@
+import dudraw
+import random
+
+# I want to make 10 random lines and get them to move and bounce off walls
+dudraw.set_canvas_size(600,600)
+dudraw.clear_rgb(137,207,240)
+#rgb(204,0,102)
+rgb_red=204
+rgb_green=0
+rgb_blue=102
+#rgb(255,215,0) golden
+#I start with creating empty lists
+x_points=[]
+y_points=[]
+x_speed=[]
+y_speed=[]
+#This is to make 10 random x and y values along with their speeds
+for i in range(11):
+    x_points.append(random.random())
+    y_points.append(random.random())
+    #I multiply it by 0.03 to cap the speed at 0.03
+    x_speed.append(random.random()*0.03)
+    y_speed.append(random.random()*0.03)
+
+#The range is 101 because I want to see the image after 100 steps    
+for line in range(100):
+    #The range is the length of the list because I want to iterate through the whole length of both lists
+    for i in range(len(x_points)):
+        dudraw.set_pen_color_rgb(rgb_red,rgb_blue,rgb_blue)
+        dudraw.line(x_points[i],y_points[i],x_points[i-1],y_points[i-1])
+        new_red=204+(i/10*51)    
+        new_green=0+(i/10*215)
+        new_blue=102-(i/10*102)
+        rgb_red=int(new_red)
+        rgb_green=int(new_green)
+        rgb_blue=int(new_blue)
+    #This is how I achieve lines having a gradient of colors    
+    new_red=204+(line/1000*51)    
+    new_green=0+(line/1000*215)
+    new_blue=102-(line/1000*102)
+    rgb_red=int(new_red)
+    rgb_green=int(new_green)
+    rgb_blue=int(new_blue)
+    
+           
+    dudraw.show(100)
+    #This is how I change the positions of the lines
+    for i in range(len(x_points)):
+        x_points[i]=x_speed[i]+x_points[i]
+        x_points[i-1]=x_speed[i]+x_points[i-1]
+        y_points[i]=y_speed[i]+y_points[i]
+        y_points[i-1]=y_speed[i]+y_points[i-1]
+    #This is how I get the lines to "bounce" off the wall.   
+    if x_points[i]>=1 or x_points[i]<=0 or x_points[i-1]>=1 or x_points[i-1]<=0:
+        x_speed[i]*=-1
+    if y_points[i]>=1 or y_points[i]<=0 or y_points[i-1]>=1 or y_points[i-1]<=0:
+        y_speed[i]*=-1
+#This makes the image stay
+dudraw.show(float('inf'))          
+        
+
+  
